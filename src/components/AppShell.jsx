@@ -7,12 +7,19 @@ import IdeaGeneration from './views/IdeaGeneration';
 import CopyAnalysis from './views/CopyAnalysis';
 import OutreachAutomation from './views/OutreachAutomation';
 import CommunityInsights from './views/CommunityInsights';
+import Auth from './views/Auth';
 import { Menu, X } from 'lucide-react';
 
 function AppShell() {
-  const { currentView, user } = useApp();
+  const { currentView, user, isAuthenticated } = useApp();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  // Show auth view if not authenticated
+  if (!isAuthenticated || currentView === 'login') {
+    return <Auth />;
+  }
+
+  // Show loading if user data is still being fetched
   if (!user) {
     return (
       <div className="min-h-screen bg-bg flex items-center justify-center">
